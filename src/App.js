@@ -7,11 +7,7 @@ import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component'
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
 import Header from './components/header/header.component'
-<<<<<<< HEAD
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
-=======
-import { auth } from './firebase/firebase.utils'
->>>>>>> b326256fef722c8c0b7d8b8cc67b96f6d0ccfc5d
 
 class App extends React.Component {
     constructor() {
