@@ -5,7 +5,7 @@ const StripeCheckoutButton = ({ price }) => {
     const priceForStripe = price * 100
 
     const onToken = token => {
-        alert(token)
+        alert('Payment Successful!')
     }
 
     return (
