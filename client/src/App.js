@@ -3,9 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-import { setCurrentUser } from './redux/user/user-actions'
 import { selectCurrentUser } from './redux/user/user-selectors'
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import { checkUserSession } from './redux/user/user-actions'
 
 import HomePage from './pages/homepage/homepage.component'
 import Header from './components/header/header.component'
@@ -20,27 +19,10 @@ const SignInAndSignUpPage = lazy(() =>
 )
 const CheckoutPage = lazy(() => import('./pages/checkout/checkout.component'))
 
-const App = ({ currentUser, setCurrentUser }) => {
+const App = ({ currentUser, checkUserSession }) => {
     useEffect(() => {
-        const unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
-            if (user) {
-                const userRef = await createUserProfileDocument(user)
-
-                userRef.onSnapshot(snapshot => {
-                    setCurrentUser({
-                        id: snapshot.id,
-                        ...snapshot.data(),
-                    })
-                })
-            } else {
-                setCurrentUser(user)
-            }
-        })
-
-        return () => {
-            unsubscribeFromAuth()
-        }
-    }, [setCurrentUser])
+        checkUserSession()
+    }, [checkUserSession])
 
     return (
         <div>
@@ -78,10 +60,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user)),
+    checkUserSession: () => dispatch(checkUserSession()),
 })
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
